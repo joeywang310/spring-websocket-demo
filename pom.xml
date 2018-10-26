@@ -6,7 +6,7 @@
     <groupId>com.wzc</groupId>
     <artifactId>spring-websocket-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>spring-websocket-demo</name>
     <description>Demo project for Spring Boot</description>
@@ -17,6 +17,12 @@
         <version>2.0.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <modules>
+        <module>row-websocket</module>
+        <module>sockjs</module>
+        <module>stomp</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

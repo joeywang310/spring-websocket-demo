@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/row-websocket/row-websocket.iml" filepath="$PROJECT_DIR$/row-websocket/row-websocket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sockjs/sockjs.iml" filepath="$PROJECT_DIR$/sockjs/sockjs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-websocket-demo.iml" filepath="$PROJECT_DIR$/spring-websocket-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stomp/stomp.iml" filepath="$PROJECT_DIR$/stomp/stomp.iml" />
+    </modules>
+  </component>
+</project>
