@@ -22,6 +22,7 @@
         <module>row-websocket</module>
         <module>sockjs</module>
         <module>stomp</module>
+        <module>send2user</module>
     </modules>
 
     <properties>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.js">
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<div>
+    <button id="connect" onclick="connect();">连接</button>
+    <button id="disconnect" disabled="disabled" onclick="disconnect();">断开连接</button>
+</div>
+<div>
+    <label for="name">发送到：</label><input type="text" name="" id="name">
+    <label for="msg">发送内容:</label><input type="text" name="" id="msg">
+    <button id="send">发送</button>
+</div>
+<div id="content">
+
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+    $(function () {
+        setConnected(false);
+    });
+
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+    }
+
+    var stompClient = null;
+
+
+    function connect() {
+        // websocket的连接地址，此值等于WebSocketMessageBrokerConfigurer中registry.addEndpoint("/websocket-simple").withSockJS()配置的地址
+        var socket = new SockJS('/ws'); //1
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+
+            setConnected(true);
+            console.log('Connected: ' + frame);
+            // 客户端订阅消息的目的地址：此值等于BroadcastCtl中@SendTo注解的里配置的值。
+            stompClient.subscribe(
+                '/user/topic/demo',
+                function (respnose) {
+                    console.log(respnose);
+                    $("#content").append("<div>"+respnose.body+"</div>");
+                }
+            );
+        });
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+    }
+
+
+    $("#send").click(function(){
+        stompClient.send("/topic/chat", {}, JSON.stringify({name: $('#name').val(),msg: $('#msg').val()}));
+    });
+
+</script>
+</body>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+用户名:<input type="text" name="name" /><br/>
+密码:<input type="password" name="password" />
+<button type="submit" id="submit">登录</button>
+<script>
+    $("#submit").click(function () {
+        $.post("/login",{"name":$("input[name='name']").val(),"pwd":$("input[name='password']").val()},function(data){
+            console.log(data);
+            window.location = 'sendtouser.html'
+        })
+    });
+</script>
+</body>
+</html>

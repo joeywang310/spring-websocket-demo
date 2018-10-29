@@ -7,12 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="row-websocket" />
+        <module name="send2user" />
         <module name="sockjs" />
         <module name="stomp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="row-websocket" target="1.8" />
+      <module name="send2user" target="1.8" />
       <module name="sockjs" target="1.8" />
       <module name="spring-websocket-demo" target="1.8" />
       <module name="stomp" target="1.8" />
