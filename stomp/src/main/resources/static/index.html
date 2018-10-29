@@ -1,33 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.js">
+    </script><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+    推送所有客户端：<input type="text" id="hello"><button onclick="hello()">send</button></br>
+    推送单个客户端：<input type="text" id="single"><button onclick="single()">single</button></br>
+</div>
 
 <script>
-    var ws = new WebSocket("ws://127.0.0.1:8080/rowws");
-    ws.onopen = function(evt) {
-        console.log("Connection open ...");
-        ws.send("Hello WebSockets!");
-    };
 
-    ws.onmessage = function(evt) {
-        console.log( "Received Message: " + evt.data);
-        ws.close();
-    };
+    var socket = new SockJS("http://127.0.0.1:8080/stomp");
+    var stompClient = Stomp.over(socket);
 
-    ws.onclose = function(evt) {
-        console.log("Connection closed.");
-    };
+    stompClient.connect({}, function(frame) {
+        stompClient.subscribe('/topic/first', function (msg) {
+            alert(msg);
+        });
+        //接收单个
+        stompClient.subscribe('/user/reply', function (msg) {
+            alert(msg);
+        });
+    });
 
-    ws.onopen();
-    ws.onmessage();
-    ws.onclose();
+    function hello (){
+        var msg = $("#hello").val();
+        console.log(msg);
+        stompClient.send("/queue/hello", {}, msg);
+    }
+
+    function single (){
+        var msg = $("#single").val();
+        console.log(msg);
+        stompClient.send("/greeting", {}, msg);
+    }
 </script>
 </body>
 </html>

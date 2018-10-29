@@ -8,6 +8,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.HandshakeFailureException;
@@ -28,46 +29,34 @@ import java.util.Map;
 public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-
-        webSocketHandlerRegistry.addHandler(new WebSocketHandler() {
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(new WebSocketHandler() {
             @Override
-            public void afterConnectionEstablished(WebSocketSession webSocketSession) throws Exception {
-                System.out.println("connected!");
+            public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+                System.out.println("connected");
             }
 
             @Override
-            public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-                System.out.println(webSocketMessage.getPayload());
+            public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+
             }
 
             @Override
-            public void handleTransportError(WebSocketSession webSocketSession, Throwable throwable) throws Exception {
-                System.out.println(throwable.getMessage());
+            public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+
             }
 
             @Override
-            public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
-                System.out.println("close");
+            public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+
             }
 
             @Override
             public boolean supportsPartialMessages() {
                 return false;
             }
-        },"/rowws")
-                //设置拦截器
-                .addInterceptors(new HandshakeInterceptor() {
-            @Override
-            public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
-                System.out.println("before hand shake");
-                return true;
-            }
-
-            @Override
-            public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Exception e) {
-                System.out.println("after hands shake");
-            }
-        });
+        }, "/sockjs").withSockJS()
+                .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js");
     }
+
 }
