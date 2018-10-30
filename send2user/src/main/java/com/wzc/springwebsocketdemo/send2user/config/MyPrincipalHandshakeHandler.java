@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  *  处理WebSocket的握手请求
  *      定义自己的Principal
- * Created by huangrongyou@yixin.im on 2018/7/10.
+ * Created by on 2018/7/10.
  */
 @Component
 public class MyPrincipalHandshakeHandler extends DefaultHandshakeHandler {

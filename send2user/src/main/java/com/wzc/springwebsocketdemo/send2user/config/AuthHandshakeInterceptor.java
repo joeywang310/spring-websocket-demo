@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 自定义的握手拦截
  *  在握手前判断，判断当前用户是否已经登录。如果未登录，则不允许登录websocket
- * Created by huangrongyou@yixin.im on 2018/7/10.
+ * Created by 2018/7/10.
  */
 @Component
 public class AuthHandshakeInterceptor implements HandshakeInterceptor {
