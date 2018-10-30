@@ -24,6 +24,8 @@ import java.io.IOException;
 @Controller
 public class HomeController {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
@@ -43,11 +45,12 @@ public class HomeController {
      */
     @MessageMapping(value = "/topic/chat")
     public int sendMq2User(String message) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(message);
         String name = jsonNode.get("name").asText();
         String msg = jsonNode.get("msg").asText();
         System.out.println("===========" + name + "=======" + msg);
+
+        //发送到指定用户消息
         simpMessagingTemplate.convertAndSendToUser(name, "/topic/demo", msg);
         return 0;
     }
